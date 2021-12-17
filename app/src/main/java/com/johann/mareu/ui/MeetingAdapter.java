@@ -3,6 +3,8 @@ package com.johann.mareu.ui;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,10 +17,13 @@ import com.johann.mareu.R;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
-public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.MyViewHolder> {
+public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.MyViewHolder> implements Filterable {
     private DeleteMeeting myInterface;
     private ArrayList<Meeting> meetings;
+    private ArrayList<Meeting> meetingsFull;
 
     public MeetingAdapter(ArrayList<Meeting> meetings) {
         this.meetings = meetings;
@@ -27,7 +32,10 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.MyViewHo
     public MeetingAdapter(DeleteMeeting mainActivity, ArrayList<Meeting> meetingArrayList) {
         this.meetings = meetingArrayList;
         this.myInterface = mainActivity;
+        meetingsFull = new ArrayList<>(meetingArrayList);
     }
+
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         private ImageView circle;
@@ -90,4 +98,38 @@ public class MeetingAdapter extends RecyclerView.Adapter<MeetingAdapter.MyViewHo
     public int getItemCount() {
         return meetings.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        return meetingFilter;
+    }
+
+    private Filter meetingFilter = new Filter() {
+        @Override
+        protected FilterResults performFiltering(CharSequence charSequence) {
+            ArrayList<Meeting> filteredList = new ArrayList<>();
+            if (charSequence == null || charSequence.length() == 0) {
+                filteredList.addAll(meetingsFull);
+            } else {
+                String filterPattern = charSequence.toString().toLowerCase().trim();
+
+                for (Meeting meeting : meetingsFull) {
+                    if (meeting.getRoom().toLowerCase().contains(filterPattern)) {
+                        filteredList.add(meeting);
+                    }
+                }
+            }
+            FilterResults results = new FilterResults();
+            results.values = filteredList;
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence charSequence, FilterResults results) {
+            meetings.clear();
+            meetings.addAll((List) results.values);
+            notifyDataSetChanged();
+        }
+    };
 }
