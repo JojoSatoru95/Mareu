@@ -52,25 +52,11 @@ public class CreateMeetingTest {
                         isDisplayed()));
         floatingActionButton.perform(click());
 
-        onView(withId(R.id.textRoom)).perform(replaceText("sangoku"), closeSoftKeyboard());
+        onView(withId(R.id.et_room)).perform(replaceText("sangoku"), closeSoftKeyboard());
 
-        ViewInteraction textInputEditText2 = onView(
-                allOf(childAtPosition(
-                        childAtPosition(
-                                withId(R.id.textSubject),
-                                0),
-                        0),
-                        isDisplayed()));
-        textInputEditText2.perform(replaceText("reu"), closeSoftKeyboard());
+        onView(withId(R.id.et_subject)).perform(replaceText("reu"), closeSoftKeyboard());
 
-        ViewInteraction textInputEditText3 = onView(
-                allOf(childAtPosition(
-                        childAtPosition(
-                                withId(R.id.textParticipants),
-                                0),
-                        0),
-                        isDisplayed()));
-        textInputEditText3.perform(replaceText("jo@gmail.com"), closeSoftKeyboard());
+        onView(withId(R.id.et_participants)).perform(replaceText("jo@gmail.com"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.dateTxt),
