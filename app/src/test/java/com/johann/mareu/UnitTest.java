@@ -53,4 +53,15 @@ public class UnitTest {
         assertTrue(service.getMeetings().contains(meetingToAdd));
     }
 
+
+    @Test
+    public void getFilteredDateWithSucces() {
+        Meeting meetingFiltered = new Meeting("Yoshi", "Contrat", "gege@gmail.com", new Date(1640077200000L), new Date(1640077200000L));
+        Meeting meetingNotFiltered = new Meeting("Maskass", "Entretien", "gigi@gmail.com", new Date(1640169000000L), new Date(1640169000000L));
+        service.createMeeting(meetingFiltered);
+        service.getMeetingsFilteredByDate(new Date(1640077200000L));
+        assertTrue(service.getMeetingsFilteredByDate(new Date(1640077200000L)).contains(meetingFiltered));
+        assertFalse(service.getMeetingsFilteredByDate(new Date(1640077200000L)).contains(meetingNotFiltered));
+    }
+
 }

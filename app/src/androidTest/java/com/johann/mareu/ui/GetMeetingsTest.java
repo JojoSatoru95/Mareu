@@ -22,7 +22,7 @@ import org.junit.runner.RunWith;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class InstrumentedTest {
+public class GetMeetingsTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
@@ -41,8 +41,4 @@ public class InstrumentedTest {
                         isDisplayed()));
         textView2.check(matches(withText("Salle Wario")));
     }
-
-
-
-
 }
